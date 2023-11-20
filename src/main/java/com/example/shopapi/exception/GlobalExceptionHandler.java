@@ -16,9 +16,16 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleCustomException(ResourceNotFoundException ex) {
-        // Handle your custom exceptions
+    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
+        // Handle Resource Not Found Exception
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
+        // Handle Bad Request Exception
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
 
 }
