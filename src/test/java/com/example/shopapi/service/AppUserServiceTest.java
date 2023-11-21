@@ -57,20 +57,6 @@ class AppUserServiceTest {
     }
 
     @Test
-    public void AppUserService_RegisterUserWithNotValidEmail_ThrowsBadRequestException() {
-        AppUserDto appUserDto = AppUserDto.builder().email("userexample.com").password("12345678").build();
-
-        assertThrows(BadRequestException.class, () -> appUserService.registerUser(appUserDto));
-    }
-
-    @Test
-    public void AppUserService_RegisterUserWithNotValidPassword_ThrowsBadRequestException() {
-        AppUserDto appUserDto = AppUserDto.builder().email("user@example.com").password("1234567").build();
-
-        assertThrows(BadRequestException.class, () -> appUserService.registerUser(appUserDto));
-    }
-
-    @Test
     public void AppUserService_LoginUser_ReturnAppUserDto() {
         AppUser appUser = AppUser.builder().id(1).email("user@example.com").password("12345678").build();
         AppUserDto appUserDto = AppUserDto.builder().email("user@example.com").password("12345678").build();
@@ -115,16 +101,6 @@ class AppUserServiceTest {
 
         Assertions.assertThat(updatedUser).isNotNull();
         Assertions.assertThat(updatedUser.getPassword()).isEqualTo(appUserDto.getPassword());
-    }
-
-    @Test
-    public void AppUserService_UpdateUserWithNotValidPassword_ThrowsBadRequestException() {
-        AppUser appUser = AppUser.builder().id(1).email("user@example.com").password("12345678").build();
-        AppUserDto appUserDto = AppUserDto.builder().email("user@example.com").password("1234567").build();
-
-        when(appUserRepository.findByEmail(Mockito.anyString())).thenReturn(Optional.ofNullable(appUser));
-
-        assertThrows(BadRequestException.class, () -> appUserService.updateUserPassword(appUserDto));
     }
 
     @Test

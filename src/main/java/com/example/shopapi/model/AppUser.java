@@ -32,6 +32,9 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
 
+    @OneToOne(mappedBy = "appUser")
+    private Customer customer;
+
     private boolean enabled;
 
     @CreationTimestamp

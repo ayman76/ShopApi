@@ -10,9 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 @Service
 @RequiredArgsConstructor
 public class AppUserServiceImpl implements AppUserService {
@@ -22,14 +19,8 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUserDto registerUser(AppUserDto appUserDto) {
-        if (!isValidEmail(appUserDto.getEmail())) {
-            throw new BadRequestException("Email is not valid");
-        }
         if (appUserRepository.existsByEmail(appUserDto.getEmail())) {
             throw new BadRequestException("Email is already taken");
-        }
-        if (isValidPassword(appUserDto.getPassword())) {
-            throw new BadRequestException("Password length should be greater than 8 and less than 50.");
         }
         AppUser appUser = modelMapper.map(appUserDto, AppUser.class);
         appUser.setEnabled(true);
@@ -50,23 +41,9 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUserDto updateUserPassword(AppUserDto appUserDto) {
         AppUser foundedUser = appUserRepository.findByEmail(appUserDto.getEmail()).orElseThrow(() -> new ResourceNotFoundException("Not Founded user with this email:" + appUserDto.getEmail()));
-        if (isValidPassword(appUserDto.getPassword())) {
-            throw new BadRequestException("Password length should be greater than 8 and less than 50.");
-        }
         foundedUser.setPassword(appUserDto.getPassword());
 
         AppUser updatedUser = appUserRepository.save(foundedUser);
         return modelMapper.map(updatedUser, AppUserDto.class);
-    }
-
-    private boolean isValidPassword(String password) {
-        return password == null || password.length() < 8 || password.length() > 50;
-    }
-
-    private boolean isValidEmail(String email) {
-        String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        Pattern pattern = Pattern.compile(EMAIL_REGEX);
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 }
