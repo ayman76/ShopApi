@@ -30,8 +30,10 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = modelMapper.map(customerDto, Customer.class);
         AppUser appUser = appUserRepository.findByEmail(customer.getAppUser().getEmail()).orElseThrow(() -> new ResourceNotFoundException("Not Founded User with emailL: " + customer.getAppUser().getEmail()));
         customer.setAppUser(appUser);
-        customer.setBillingAddress(new BillingAddress("", "", "", "", ""));
-        customer.setShippingAddress(new ShippingAddress("", "", "", "", ""));
+        if (customer.getShippingAddress() == null)
+            customer.setShippingAddress(new ShippingAddress("", "", "", "", ""));
+        if (customer.getBillingAddress() == null)
+            customer.setBillingAddress(new BillingAddress("", "", "", "", ""));
         customer.setCart(new Cart(0.0));
 
         Customer savedCustomer = customerRepository.save(customer);
