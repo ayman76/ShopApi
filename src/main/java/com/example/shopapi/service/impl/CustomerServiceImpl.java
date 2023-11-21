@@ -3,10 +3,7 @@ package com.example.shopapi.service.impl;
 import com.example.shopapi.dto.ApiResponse;
 import com.example.shopapi.dto.CustomerDto;
 import com.example.shopapi.exception.ResourceNotFoundException;
-import com.example.shopapi.model.AppUser;
-import com.example.shopapi.model.BillingAddress;
-import com.example.shopapi.model.Customer;
-import com.example.shopapi.model.ShippingAddress;
+import com.example.shopapi.model.*;
 import com.example.shopapi.repository.AppUserRepository;
 import com.example.shopapi.repository.CustomerRepository;
 import com.example.shopapi.service.CustomerService;
@@ -35,6 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setAppUser(appUser);
         customer.setBillingAddress(new BillingAddress("", "", "", "", ""));
         customer.setShippingAddress(new ShippingAddress("", "", "", "", ""));
+        customer.setCart(new Cart(0.0));
 
         Customer savedCustomer = customerRepository.save(customer);
         return modelMapper.map(savedCustomer, CustomerDto.class);

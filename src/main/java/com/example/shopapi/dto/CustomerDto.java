@@ -21,4 +21,5 @@ public class CustomerDto {
     private AppUserDto appUser;
     private ShippingAddressDto shippingAddress;
     private BillingAddressDto billingAddress;
+    private CartDto cart;
 }

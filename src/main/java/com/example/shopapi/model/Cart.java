@@ -9,42 +9,23 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "cart")
 @Builder
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Customer {
-
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer customerId;
+    private Integer cartId;
 
-    @Column(nullable = false)
-    private String firstName;
-    @Column(nullable = false)
-    private String lastName;
-    @Column(nullable = false)
-    private String phoneNumber;
+    private Double totalPrice;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_Id")
-    private AppUser appUser;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shipping_address_id")
-    private ShippingAddress shippingAddress;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "billing_address_id")
-    private BillingAddress billingAddress;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @OneToOne(mappedBy = "cart")
+    private Customer customer;
 
     @CreationTimestamp
     @Column(columnDefinition = "datetime NOT NULL ")
@@ -54,4 +35,7 @@ public class Customer {
     @Column(columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp last_update;
 
+    public Cart(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }
