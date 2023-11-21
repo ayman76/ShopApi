@@ -44,4 +44,12 @@ public class BillingAddress {
     @UpdateTimestamp
     @Column(columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp last_update;
+
+    public BillingAddress(String address, String city, String state, String zipcode, String country) {
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.country = country;
+    }
 }
