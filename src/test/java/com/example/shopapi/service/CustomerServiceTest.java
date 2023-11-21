@@ -3,9 +3,11 @@ package com.example.shopapi.service;
 import com.example.shopapi.dto.ApiResponse;
 import com.example.shopapi.dto.AppUserDto;
 import com.example.shopapi.dto.CustomerDto;
+import com.example.shopapi.dto.ShippingAddressDto;
 import com.example.shopapi.exception.ResourceNotFoundException;
 import com.example.shopapi.model.AppUser;
 import com.example.shopapi.model.Customer;
+import com.example.shopapi.model.ShippingAddress;
 import com.example.shopapi.repository.AppUserRepository;
 import com.example.shopapi.repository.CustomerRepository;
 import com.example.shopapi.service.impl.CustomerServiceImpl;
@@ -46,8 +48,9 @@ class CustomerServiceTest {
         ModelMapper modelMapper = new ModelMapper();
         customerService = new CustomerServiceImpl(customerRepository, appUserRepository, modelMapper);
         appUser = AppUser.builder().id(1).email("user@example.com").password("12345678").build();
-        customer = Customer.builder().customerId(1).firstName("Ayman").lastName("Mohamed").phoneNumber("0123456789").appUser(appUser).build();
-        customerDto = CustomerDto.builder().customerId(1).firstName("Ayman").lastName("Mohamed").phoneNumber("0123456789").appUser(modelMapper.map(appUser, AppUserDto.class)).build();
+        ShippingAddress shippingAddress = ShippingAddress.builder().shippingAddressId(1).address("adderss").state("state").city("city").zipcode("zipcode").country("country").build();
+        customer = Customer.builder().customerId(1).firstName("Ayman").lastName("Mohamed").phoneNumber("0123456789").appUser(appUser).shippingAddress(shippingAddress).build();
+        customerDto = CustomerDto.builder().customerId(1).firstName("Ayman").lastName("Mohamed").phoneNumber("0123456789").shippingAddress(modelMapper.map(shippingAddress, ShippingAddressDto.class)).appUser(modelMapper.map(appUser, AppUserDto.class)).build();
 
     }
 

@@ -19,4 +19,5 @@ public class CustomerDto {
     @NotNull(message = "Phone Number must be not null")
     private String phoneNumber;
     private AppUserDto appUser;
+    private ShippingAddressDto shippingAddress;
 }

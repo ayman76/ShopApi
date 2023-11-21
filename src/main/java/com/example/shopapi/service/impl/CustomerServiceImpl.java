@@ -5,6 +5,7 @@ import com.example.shopapi.dto.CustomerDto;
 import com.example.shopapi.exception.ResourceNotFoundException;
 import com.example.shopapi.model.AppUser;
 import com.example.shopapi.model.Customer;
+import com.example.shopapi.model.ShippingAddress;
 import com.example.shopapi.repository.AppUserRepository;
 import com.example.shopapi.repository.CustomerRepository;
 import com.example.shopapi.service.CustomerService;
@@ -30,7 +31,6 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto createCustomer(CustomerDto customerDto) {
         Customer customer = modelMapper.map(customerDto, Customer.class);
         AppUser appUser = appUserRepository.findByEmail(customer.getAppUser().getEmail()).orElseThrow(() -> new ResourceNotFoundException("Not Founded User with emailL: " + customer.getAppUser().getEmail()));
-
         customer.setAppUser(appUser);
 
         Customer savedCustomer = customerRepository.save(customer);
@@ -56,9 +56,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto updateCustomer(int id, CustomerDto customerDto) {
         Customer foundedCustomer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not Founded Customer with id: " + id));
+        ShippingAddress shippingAddress = modelMapper.map(customerDto.getShippingAddress(), ShippingAddress.class);
+        shippingAddress.setCustomer(foundedCustomer);
+        shippingAddress.setCreate_date(foundedCustomer.getShippingAddress().getCreate_date());
+        shippingAddress.setLast_update(foundedCustomer.getShippingAddress().getLast_update());
+        shippingAddress.setShippingAddressId(foundedCustomer.getShippingAddress().getShippingAddressId());
         foundedCustomer.setFirstName(customerDto.getFirstName());
         foundedCustomer.setLastName(customerDto.getLastName());
         foundedCustomer.setPhoneNumber(customerDto.getPhoneNumber());
+        foundedCustomer.setShippingAddress(shippingAddress);
 
         Customer updatedCustomer = customerRepository.save(foundedCustomer);
         return modelMapper.map(updatedCustomer, CustomerDto.class);

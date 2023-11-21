@@ -34,6 +34,10 @@ public class Customer {
     @JoinColumn(name = "user_Id")
     private AppUser appUser;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shipping_address_id")
+    private ShippingAddress shippingAddress;
+
     @CreationTimestamp
     @Column(columnDefinition = "datetime NOT NULL ")
     private Timestamp create_date;
