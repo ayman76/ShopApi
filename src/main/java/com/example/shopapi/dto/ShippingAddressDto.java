@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Builder
 @Data
 @AllArgsConstructor
@@ -23,7 +22,5 @@ public class ShippingAddressDto {
     @NotNull
     private String country;
     @NotNull
-    private CustomerDto customer;
-
-
+    private int customerId;
 }

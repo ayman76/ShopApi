@@ -34,8 +34,7 @@ public class ShippingAddress {
     @Column(nullable = false)
     private String country;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "shippingAddress")
     private Customer customer;
 
     @CreationTimestamp
