@@ -9,38 +9,33 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "billing_Address")
 @Builder
-@Setter
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
 @EntityListeners(AuditingEntityListener.class)
-public class Customer {
+public class BillingAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer customerId;
+    private Integer billingAddressId;
 
     @Column(nullable = false)
-    private String firstName;
+    private String address;
     @Column(nullable = false)
-    private String lastName;
+    private String city;
     @Column(nullable = false)
-    private String phoneNumber;
+    private String state;
+    @Column(nullable = false)
+    private String zipcode;
+    @Column(nullable = false)
+    private String country;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_Id")
-    private AppUser appUser;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shipping_address_id")
-    private ShippingAddress shippingAddress;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "billing_address_id")
-    private BillingAddress billingAddress;
+    @OneToOne(mappedBy = "billingAddress")
+    private Customer customer;
 
     @CreationTimestamp
     @Column(columnDefinition = "datetime NOT NULL ")
@@ -49,5 +44,4 @@ public class Customer {
     @UpdateTimestamp
     @Column(columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Timestamp last_update;
-
 }

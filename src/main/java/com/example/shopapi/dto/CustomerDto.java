@@ -20,4 +20,5 @@ public class CustomerDto {
     private String phoneNumber;
     private AppUserDto appUser;
     private ShippingAddressDto shippingAddress;
+    private BillingAddressDto billingAddress;
 }
